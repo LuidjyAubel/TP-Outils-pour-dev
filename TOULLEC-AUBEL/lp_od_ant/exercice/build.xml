@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project name="Opérations" default="main" basedir=".">
+    <!-- 
+    Propriétés
+    -->
+    <property file="project.properties" />
+    <property name="test" location="location" />
+    <property name="test" value="value" />
 
-    <target name="clean">
+    <!-- 
+    Cibles
+    -->
+    <target name="display_test" description="tester le conflit de valeur d'une propriété">
+        <echo message="${test}"/>
+    </target>
+
+    <target name="try_echo_properties" description="affiche les propriétés définis">
+        <echoproperties/>
+    </target>
+
+    <target name="main" depends="run" description="met en place Opération et l'execute">
+    </target>
+
+    <target name="clean" description="suppression du répertoire build">
         <delete dir="build"/>
     </target>
 
-    <target name="compile">
+    <target name="compile" depends="clean" description="compile les classes dans le répertoire nouvellement créé build/class">
         <mkdir dir="build/classes"/>
         <javac srcdir="src" destdir="build/classes"/>
     </target>
 
-    <target name="jar">
+    <target name="jar" depends="compile" description="création des archives et du manifeste dans le répertoire build/jar">
         <mkdir dir="build/jar"/>
         <jar destfile="build/jar/Operations.jar" basedir="build/classes">
             <manifest>
@@ -19,7 +39,7 @@
         </jar>
     </target>
 
-    <target name="run">
+    <target name="run" depends="jar" description="execute le programme Opération en arrière plan">
         <java jar="build/jar/Operations.jar" fork="true"/>
     </target>
 
