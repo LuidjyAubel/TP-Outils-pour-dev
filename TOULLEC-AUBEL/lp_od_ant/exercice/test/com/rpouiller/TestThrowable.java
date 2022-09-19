@@ -32,7 +32,7 @@ public class TestThrowable {
      * declenche. L'annotation reçoit la classe du Throwable attendu en 
      * paramètre. 
      */
-    @Test(expected!=ArithmeticException.class)
+    @Test(expected=ArithmeticException.class)
     public void divisionAvecDeuxNombres() {
         Operations.diviser(10, 5);
     }
