@@ -1,5 +1,7 @@
 package com.rpouiller;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.BasicConfigurator;
 import java.util.Arrays;
 
 // Pour determiner les methodes de tests, JUnit3 recherche toutes celles 
@@ -12,6 +14,7 @@ import java.util.Arrays;
  */
 public class Operations {
 
+    static Logger logger = Logger.getLogger(Operations.class);
     /**
      * additionner une liste de long
      */
@@ -100,12 +103,15 @@ public class Operations {
 
 	public static void main(String[] args) {
         	
+        BasicConfigurator.configure();
 		long a = 1 ;
 		long b = 2 ;
 		long c = Operations.additionner(a, b);
+        logger.info("on journalise une addition");
 		System.out.println("Le résultat de l addition entre a="+ a+" et b="+ b+" est c="+c);
 
 		long d = Operations.multiplier(a, b);
+        logger.info("on journalise une multiplication");
 		System.out.println("Le résultat de la multiplication entre a="+ a+" et b="+ b+" est d="+d);
 
 

@@ -51,4 +51,36 @@
         </java>
     </target>
 
+    <!--Cibles utilisant une bibliothèque externe-->
+    <target name="compile_cp_with_external_library" depends="clean" description="compile les classes dans le répertoire nouvellement créé build/class utilisant la bibliothèque log4j">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes">
+            <classpath>
+                <pathelement path="${lib.dir}/log4j-1.2-api-2.6.2.jar:${lib.dir}/log4j-api-2.6.2.jar:${lib.dir}/log4j-core-2.6.2.jar"/>
+            </classpath>
+        </javac>
+        <copy todir="${classes.dir}">
+            <fileset dir="${src.dir}" excludes="**/*.java"/>
+        </copy>
+    </target>
+
+    <target name="jar_cp_with_external_library" depends="compile_cp_with_external_library" description="création des archives et du manifeste dans le répertoire build/jar utilisant la bibliothèque log4j">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/${ant.project.name}.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="com.rpouiller.Operations"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run_classname_pathement_cp_with_external_library" depends="jar_cp_with_external_library" description="execute le programme Opération en arrière plan utilisant la bibliothèque log4j">
+        <java classname="${main-class}" fork="true">
+            <classpath>
+                <pathelement location="${jar}/${ant.project.name}.jar"/>
+                <pathelement path="${lib.dir}/log4j-1.2-api-2.6.2.jar:${lib.dir}/log4j-api-2.6.2.jar:${lib.dir}/log4j-core-2.6.2.jar"/>
+                <pathelement location="${classes.dir}"/>
+            </classpath>
+        </java>
+    </target>
+
 </project>
