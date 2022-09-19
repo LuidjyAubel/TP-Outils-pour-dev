@@ -59,3 +59,9 @@ Sans utiliser la copie on a un classpath contenant les librairies, avec la copie
 
 Question 8 : globalisation des classpath à l’aide de path
 ====================
+
+Question 9: compilation des tests
+====================
+
+Le troisième test de la classe TestThrowable est éronné, la division de 10 par 5 n'est pas censée retourner une erreur.
+En corrigeant l'erreur avec `expected!=ArithmeticException.class`, le code ne compile plus.
