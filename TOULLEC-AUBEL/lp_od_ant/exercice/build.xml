@@ -7,6 +7,16 @@
     <property name="test" location="location" />
     <property name="test" value="value" />
 
+    <!--
+    Définition des chemins
+    -->
+    <path id="classpath">
+        <!--<pathelement path="${lib.dir}/log4j-1.2-api-2.6.2.jar:${lib.dir}/log4j-api-2.6.2.jar:${lib.dir}/log4j-core-2.6.2.jar"/>-->
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
     <!-- 
     Cibles
     -->
@@ -56,7 +66,7 @@
         <mkdir dir="build/classes"/>
         <javac srcdir="src" destdir="build/classes">
             <classpath>
-                <pathelement path="${lib.dir}/log4j-1.2-api-2.6.2.jar:${lib.dir}/log4j-api-2.6.2.jar:${lib.dir}/log4j-core-2.6.2.jar"/>
+                <path refid="classpath"/>
             </classpath>
         </javac>
         <copy todir="${classes.dir}">
@@ -77,7 +87,7 @@
         <java classname="${main-class}" fork="true">
             <classpath>
                 <pathelement location="${jar}/${ant.project.name}.jar"/>
-                <pathelement path="${lib.dir}/log4j-1.2-api-2.6.2.jar:${lib.dir}/log4j-api-2.6.2.jar:${lib.dir}/log4j-core-2.6.2.jar"/>
+                <path refid="classpath"/>
                 <pathelement location="${classes.dir}"/>
             </classpath>
         </java>
