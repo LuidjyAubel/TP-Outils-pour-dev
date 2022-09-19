@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Opérations" default="main" basedir=".">
+<project name="Operations" default="main" basedir=".">
     <!-- 
     Propriétés
     -->
@@ -40,6 +40,10 @@
     </target>
 
     <target name="run" depends="jar" description="execute le programme Opération en arrière plan">
+        <java jar="build/jar/Operations.jar" fork="true"/>
+    </target>
+
+    <target name="run_classname_pathement" depends="jar" description="execute le programme Opération en arrière plan">
         <java jar="build/jar/Operations.jar" fork="true"/>
     </target>
 
