@@ -56,3 +56,6 @@ Les cibles concernées par la modification des classpath sont compile et run, le
 **Au final, les deux classpaths ainsi construits contiennent-ils la même chose ?**
 
 Sans utiliser la copie on a un classpath contenant les librairies, avec la copie, on obtient un classpath contenant le fichier de conficuration du logger.
+
+Question 8 : globalisation des classpath à l’aide de path
+====================
