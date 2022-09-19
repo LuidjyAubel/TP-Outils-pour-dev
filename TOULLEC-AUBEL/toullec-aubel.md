@@ -36,4 +36,23 @@ Les propriétés permettant de connaitre la version de ant et de java utilisées
 Question 5 : généralisation du code à l'aide de propriétés
 ====================
 
-//Créez la propriété main-class pour désigner le nom de la classe principale (le nom d’une classe s’accompagne de son nom de package).
+Question 6 : spécification locale du classpath
+====================
+
+Question 7 : utilisation d’une bibliothèque externe
+====================
+
+**Une fois le code modifié, exécutez un `ant main`. Traduisez en français ce que signifie les messages que vous obtenez en console.**
+
+Il y a deux erreurs liées à l'import :
+Le package `org.apache.log4j` n'existe pas.
+
+Et trois erreurs liées à l'utilisation du logger (symbole non reconnu).
+
+**Puis modifiez les `classpath` des tâches qui en ont besoin. Quelles sont les cibles et les tâches concernées ?**
+
+Les cibles concernées par la modification des classpath sont compile et run, les tâches concernées sont javac et java.
+
+**Au final, les deux classpaths ainsi construits contiennent-ils la même chose ?**
+
+Sans utiliser la copie on a un classpath contenant les librairies, avec la copie, on obtient un classpath contenant le fichier de conficuration du logger.
