@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Operations" default="main" basedir=".">
+<project name="Operationse" default="main" basedir=".">
     <!-- 
     Propriétés
     -->
@@ -32,7 +32,7 @@
 
     <target name="jar" depends="compile" description="création des archives et du manifeste dans le répertoire build/jar">
         <mkdir dir="build/jar"/>
-        <jar destfile="build/jar/Operations.jar" basedir="build/classes">
+        <jar destfile="build/jar/${ant.project.name}.jar" basedir="build/classes">
             <manifest>
                 <attribute name="Main-Class" value="com.rpouiller.Operations"/>
             </manifest>
@@ -40,7 +40,7 @@
     </target>
 
     <target name="run" depends="jar" description="execute le programme Opération en arrière plan">
-        <java jar="build/jar/Operations.jar" fork="true"/>
+        <java jar="build/jar/${ant.project.name}.jar" fork="true"/>
     </target>
 
     <target name="run_classname_pathement" depends="jar" description="execute le programme Opération en arrière plan">
