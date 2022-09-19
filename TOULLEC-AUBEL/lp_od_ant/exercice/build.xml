@@ -46,7 +46,7 @@
     <target name="run_classname_pathement" depends="jar" description="execute le programme Opération en arrière plan">
         <java classname="${main-class}" fork="true">
             <classpath>
-                <pathelement location="${build.dir.jar}/${ant.project.name}.jar"/>
+                <pathelement location="${jar}/${ant.project.name}.jar"/>
             </classpath>
         </java>
     </target>
