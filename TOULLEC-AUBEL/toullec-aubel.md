@@ -69,4 +69,11 @@ En corrigeant l'erreur avec `expected!=ArithmeticException.class`, le code ne co
 Question 10: Execution des tests
 ====================
 
-Piste ? attribut `haltonerror` pour desactiver m'arrêt après erreur
+Piste ? attribut `haltonerror` pour desactiver m'arrêt après erreur<br>
+Probleme avec l'execution des tests affichage d'erreur même après l'ajout des dépendances dans les classpath
+
+Question 12: Génération de la javadoc
+====================
+
+Il faut rajouter la dépendance de notre propriété `classpath` qui permet d'importer les bibliothèques nécessaires (log4j-api, log4j-core, log4j-1.2-api)
+

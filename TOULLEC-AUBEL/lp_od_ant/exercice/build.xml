@@ -139,7 +139,8 @@
         </javac>
     </target>
 
-        <target name="junit" depends="compile-test">
+    <!--A fixe car BUG error test-->
+    <target name="junit" depends="compile-test" description="Execute les tests">
         <mkdir dir="build/junittest"/>
         <junit printsummary="yes">
             <classpath>
@@ -151,6 +152,40 @@
             <fileset dir="build/test-classes" includes="**/*.class"/>
             </batchtest>
         </junit>
+    </target>
+
+       <target name="junitreport" depends="junit" description="Affiche les rapports de fin de test">
+        <mkdir dir="build/junitreport"/>
+        <junitreport todir="build/junitreport">
+            <fileset dir="build/junittest" includes="TEST-*.xml"/>
+            <report todir="build/junitreport"/>
+        </junitreport>
+    </target>
+
+    <!-- JAVADOC-->
+        <target name="javadoc" description="Génération de la documentation Javadoc">
+        <mkdir dir="build/javadoc"/>
+        <javadoc sourcepath="src"
+            destdir="build/javadoc"
+            packagenames="com.rpouiller"
+            author="true"
+            version="true"
+            use="true"
+            access="private"
+            linksource="true"
+            windowtitle="${ant.project.name} API">
+            <classpath >
+                <path refid="classpath"/>
+                <pathelement location="${jar}/${ant.project.name}.jar"/>
+            </classpath>
+            <doctitle><![CDATA[<h1>${ant.project.name}</h1>]]></doctitle>
+            <bottom><![CDATA[<i>Copyright &#169; 2000 Dummy Corp. All Rights Reserved.</i>]]></bottom>
+            <tag name="todo" scope="all" description="To do:"/>
+            <group title="Group 1 Packages" packages="com.dummy.test.a*"/>
+            <group title="Group 2 Packages" packages="com.dummy.test.b*:com.dummy.test.c*"/>
+            <link offline="true" href="http://java.sun.com/j2se/1.5.0/docs/api/" packagelistLoc="C:\tmp"/>
+            <link href="http://developer.java.sun.com/developer/products/xml/docs/api/"/>
+        </javadoc>
     </target>
 
 </project>
