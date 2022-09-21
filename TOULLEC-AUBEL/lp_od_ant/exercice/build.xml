@@ -139,4 +139,18 @@
         </javac>
     </target>
 
+        <target name="junit" depends="compile-test">
+        <mkdir dir="build/junittest"/>
+        <junit printsummary="yes">
+            <classpath>
+                <path refid="classpath"/>
+                <pathelement location="${jar}/${ant.project.name}.jar"/>
+            </classpath>
+        <formatter type="xml"/>
+        <batchtest fork="yes" todir="build/junittest">
+            <fileset dir="build/test-classes" includes="**/*.class"/>
+            </batchtest>
+        </junit>
+    </target>
+
 </project>
