@@ -18,6 +18,7 @@
     <path id="testpath">
         <pathelement location="${lib.dir}/junit-4.13.jar"/>
         <pathelement location="${jar}/Operations.jar"/>
+        <pathelement location="${jar}/TestOperations.jar"/>
     </path>
 
 
@@ -133,23 +134,25 @@
     <target name="compile-test" depends="jar_cp_with_path" description="compile les classes de test">
         <mkdir dir="build/test-classes"/>
         <javac srcdir="test" destdir="build/test-classes">
-               <classpath>
+            <classpath>
                 <path refid="testpath"/>
             </classpath>
         </javac>
+        <jar destfile="build/jar/TestOperations.jar" basedir="build/test-classes"/>
     </target>
 
-    <!--A fixe car BUG error test-->
+    <!--Junit-->
     <target name="junit" depends="compile-test" description="Execute les tests">
         <mkdir dir="build/junittest"/>
         <junit printsummary="yes">
             <classpath>
                 <path refid="classpath"/>
+                <path refid="testpath"/>
                 <pathelement location="${jar}/${ant.project.name}.jar"/>
             </classpath>
-        <formatter type="xml"/>
-        <batchtest fork="yes" todir="build/junittest">
-            <fileset dir="build/test-classes" includes="**/*.class"/>
+            <formatter type="xml"/>
+            <batchtest fork="yes" todir="build/junittest">
+                <fileset dir="build/test-classes" includes="**/*.class"/>
             </batchtest>
         </junit>
     </target>
