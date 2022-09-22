@@ -77,3 +77,5 @@ Question 12: Génération de la javadoc
 
 Il faut rajouter la dépendance de notre propriété `classpath` qui permet d'importer les bibliothèques nécessaires (log4j-api, log4j-core, log4j-1.2-api)
 
+Question 13 : récupération des dépendances avec ivy2
+====================

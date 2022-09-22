@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="Operations" default="main" basedir=".">
+    <!-- 
+    Propriétés
+    -->
+    <property file="project.properties" />
+    <property name="test" location="location" />
+    <property name="test" value="value" />
+
+    <!--
+    Définition des chemins
+    -->
+    <path id="classpath">
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+    <path id="testpath">
+        <pathelement location="${lib.dir}/junit-4.13.jar"/>
+        <pathelement location="${jar}/Operations.jar"/>
+        <pathelement location="${jar}/TestOperations.jar"/>
+    </path>
+
+
+    <!-- 
+    Cibles
+    -->
+    <target name="display_test" description="tester le conflit de valeur d'une propriété">
+        <echo message="${test}"/>
+    </target>
+
+    <target name="try_echo_properties" description="affiche les propriétés définis">
+        <echoproperties/>
+    </target>
+
+    <target name="main" depends="run" description="met en place Opération et l'execute">
+    </target>
+
+    <target name="clean" description="suppression du répertoire build">
+        <delete dir="build"/>
+        <delete dir="lib"/>
+    </target>
+
+    <target name="compile" depends="clean" description="compile les classes dans le répertoire nouvellement créé build/class">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes"/>
+    </target>
+
+    <target name="jar" depends="compile" description="création des archives et du manifeste dans le répertoire build/jar">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/${ant.project.name}.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="com.rpouiller.Operations"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="jar" description="execute le programme Opération en arrière plan">
+        <java jar="build/jar/${ant.project.name}.jar" fork="true"/>
+    </target>
+
+    <target name="run_classname_pathement" depends="jar" description="execute le programme Opération en arrière plan">
+        <java classname="${main-class}" fork="true">
+            <classpath>
+                <pathelement location="${jar}/${ant.project.name}.jar"/>
+            </classpath>
+        </java>
+    </target>
+
+    <!--Cibles utilisant une bibliothèque externe-->
+    <target name="compile_cp_with_external_library" depends="clean" description="compile les classes dans le répertoire nouvellement créé build/class utilisant la bibliothèque log4j">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes">
+            <classpath>
+                <pathelement path="${lib.dir}/log4j-1.2-api-2.6.2.jar:${lib.dir}/log4j-api-2.6.2.jar:${lib.dir}/log4j-core-2.6.2.jar"/>
+            </classpath>
+        </javac>
+        <copy todir="${classes.dir}">
+            <fileset dir="${src.dir}" excludes="**/*.java"/>
+        </copy>
+    </target>
+
+    <target name="jar_cp_with_external_library" depends="compile_cp_with_external_library" description="création des archives et du manifeste dans le répertoire build/jar utilisant la bibliothèque log4j">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/${ant.project.name}.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="com.rpouiller.Operations"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run_classname_pathement_cp_with_external_library" depends="jar_cp_with_external_library" description="execute le programme Opération en arrière plan utilisant la bibliothèque log4j">
+        <java classname="${main-class}" fork="true">
+            <classpath>
+                <pathelement location="${jar}/${ant.project.name}.jar"/>
+                <pathelement path="${lib.dir}/log4j-1.2-api-2.6.2.jar:${lib.dir}/log4j-api-2.6.2.jar:${lib.dir}/log4j-core-2.6.2.jar"/>
+                <pathelement location="${classes.dir}"/>
+            </classpath>
+        </java>
+    </target>
+
+    <!--Cibles utilisant le chemin globalisé-->
+    <target name="compile_cp_with_path" depends="clean" description="compile les classes dans le répertoire nouvellement créé build/class utilisant la bibliothèque log4j et le chemin globalisé">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes">
+            <classpath>
+                <path refid="classpath"/>
+            </classpath>
+        </javac>
+        <copy todir="${classes.dir}">
+            <fileset dir="${src.dir}" excludes="**/*.java"/>
+        </copy>
+    </target>
+
+    <target name="jar_cp_with_path" depends="compile_cp_with_path" description="création des archives et du manifeste dans le répertoire build/jar utilisant la bibliothèque log4j et le chemin globalisé">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/${ant.project.name}.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="com.rpouiller.Operations"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run_classname_pathement_cp_with_path" depends="jar_cp_with_path" description="execute le programme Opération en arrière plan utilisant la bibliothèque log4j et le chemin globalisé">
+        <java classname="${main-class}" fork="true">
+            <classpath>
+                <pathelement location="${jar}/${ant.project.name}.jar"/>
+                <path refid="classpath"/>
+                <pathelement location="${classes.dir}"/>
+            </classpath>
+        </java>
+    </target>
+
+    <!--Cibles correspondant aux tests-->
+    <target name="compile-test" depends="jar_cp_with_path" description="compile les classes de test">
+        <mkdir dir="build/test-classes"/>
+        <javac srcdir="test" destdir="build/test-classes">
+            <classpath>
+                <path refid="testpath"/>
+            </classpath>
+        </javac>
+        <jar destfile="build/jar/TestOperations.jar" basedir="build/test-classes"/>
+    </target>
+
+    <!--Junit-->
+    <target name="junit" depends="compile-test" description="Execute les tests">
+        <mkdir dir="build/junittest"/>
+        <junit printsummary="yes">
+            <classpath>
+                <path refid="classpath"/>
+                <path refid="testpath"/>
+                <pathelement location="${jar}/${ant.project.name}.jar"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest fork="yes" todir="build/junittest">
+                <fileset dir="build/test-classes" includes="**/*.class"/>
+            </batchtest>
+        </junit>
+    </target>
+
+       <target name="junitreport" depends="junit" description="Affiche les rapports de fin de test">
+        <mkdir dir="build/junitreport"/>
+        <junitreport todir="build/junitreport">
+            <fileset dir="build/junittest" includes="TEST-*.xml"/>
+            <report todir="build/junitreport"/>
+        </junitreport>
+    </target>
+
+    <!-- JAVADOC-->
+        <target name="javadoc" description="Génération de la documentation Javadoc">
+        <mkdir dir="build/javadoc"/>
+        <javadoc sourcepath="src"
+            destdir="build/javadoc"
+            packagenames="com.rpouiller"
+            author="true"
+            version="true"
+            use="true"
+            access="private"
+            linksource="true"
+            windowtitle="${ant.project.name} API">
+            <classpath >
+                <path refid="classpath"/>
+                <pathelement location="${jar}/${ant.project.name}.jar"/>
+            </classpath>
+            <doctitle><![CDATA[<h1>${ant.project.name}</h1>]]></doctitle>
+            <bottom><![CDATA[<i>Copyright &#169; 2000 Dummy Corp. All Rights Reserved.</i>]]></bottom>
+            <tag name="todo" scope="all" description="To do:"/>
+            <group title="Group 1 Packages" packages="com.dummy.test.a*"/>
+            <group title="Group 2 Packages" packages="com.dummy.test.b*:com.dummy.test.c*"/>
+            <link offline="true" href="http://java.sun.com/j2se/1.5.0/docs/api/" packagelistLoc="C:\tmp"/>
+            <link href="http://developer.java.sun.com/developer/products/xml/docs/api/"/>
+        </javadoc>
+    </target>
+    <!-- IVY-->
+    <target name="resolve">
+        <mkdir dir="lib"/>
+        <setproxy proxyhost="srv-proxy-etu-2.iut-nantes.univ-nantes.prive" proxyport="3128"/>
+        <ivy:retrieve /> 
+    </target>
+
+</project>
