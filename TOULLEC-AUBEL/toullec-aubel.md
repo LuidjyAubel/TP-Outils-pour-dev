@@ -80,5 +80,7 @@ Il faut rajouter la dépendance de notre propriété `classpath` qui permet d'im
 Question 13 : récupération des dépendances avec ivy2
 ====================
 
+La commande <code>ant resolve</code> fonctionne et trouve log4j et junit
+
 Question 14 : extension des tâches
 ====================
