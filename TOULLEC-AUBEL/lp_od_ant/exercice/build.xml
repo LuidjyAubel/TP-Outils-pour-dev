@@ -157,7 +157,7 @@
         </junit>
     </target>
 
-       <target name="junitreport" depends="junit" description="Affiche les rapports de fin de test">
+    <target name="junitreport" depends="junit" description="Affiche les rapports de fin de test">
         <mkdir dir="build/junitreport"/>
         <junitreport todir="build/junitreport">
             <fileset dir="build/junittest" includes="TEST-*.xml"/>
@@ -166,7 +166,7 @@
     </target>
 
     <!-- JAVADOC-->
-        <target name="javadoc" description="Génération de la documentation Javadoc">
+    <target name="javadoc" description="Génération de la documentation Javadoc">
         <mkdir dir="build/javadoc"/>
         <javadoc sourcepath="src"
             destdir="build/javadoc"
@@ -189,6 +189,20 @@
             <link offline="true" href="http://java.sun.com/j2se/1.5.0/docs/api/" packagelistLoc="C:\tmp"/>
             <link href="http://developer.java.sun.com/developer/products/xml/docs/api/"/>
         </javadoc>
+    </target>
+
+    <target name="additioner" depends="jar_cp_with_path">
+        <taskdef name="additionner" classname="com.rpouiller.Operations">
+            <classpath>
+                <path refid="classpath"/>
+                <pathelement location="${jar}/${ant.project.name}.jar"/>
+            </classpath>
+        </taskdef>
+    </target>
+
+    <!--Test de l'addition de 2+2-->
+    <target name="calcule_deux_plus_deux" depends="additioner">
+        <additionner a="2" b="2"/>
     </target>
 
 </project>

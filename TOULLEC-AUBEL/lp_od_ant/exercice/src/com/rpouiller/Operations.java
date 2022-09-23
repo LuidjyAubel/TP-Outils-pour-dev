@@ -4,6 +4,9 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.BasicConfigurator;
 import java.util.Arrays;
 
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
+
 // Pour determiner les methodes de tests, JUnit3 recherche toutes celles 
 // commencant par "test" dans les classes heritant de TestCase. JUnit4, 
 // quant a lui, recherche les methodes avec l'annotation @Test dans 
@@ -12,7 +15,21 @@ import java.util.Arrays;
 /**
  *  Operations
  */
-public class Operations {
+public class Operations extends Task {
+    private int a;
+    private int b;
+
+    public void execute() throws BuildException {
+        System.out.println(additionner(a, b));
+    }
+
+    public void setA(int a) {
+        this.a = a;
+    }
+
+    public void setB(int b) {
+        this.b = b;
+    }
 
     static Logger logger = Logger.getLogger(Operations.class);
     /**
@@ -113,7 +130,6 @@ public class Operations {
 		long d = Operations.multiplier(a, b);
         logger.info("on journalise une multiplication");
 		System.out.println("Le résultat de la multiplication entre a="+ a+" et b="+ b+" est d="+d);
-
 
 	}
 }
